@@ -88,6 +88,12 @@ typeHashForNames ns = do
 -- including the definition of things it references (transitively).
 --
 -- The resulting expression is a literal of type 'Int'.
+--
+-- Note: this funtion will succeed silently even if the names present in the
+-- 'Type' cannot be found, which can happen if for example you do @hashOfType [t|Foo|]@
+-- with @Foo@ is defined in the same module. Thus, you should never use it,
+-- and instead use functions that output declarations such as 'mkHasTypeHash' and
+-- 'mkManyHasTypeHash'.
 hashOfType :: Type -> Q Exp
 hashOfType ty = do
     infos <- getTypeInfosRecursively (getInfoConcreteNames ty)

@@ -1,8 +1,6 @@
 resolver: lts-3.13
 packages:
   - .
-  - location: deps/smallcheck
-    extra-dep: true
   - location: deps/weigh
     extra-dep: true
 extra-deps:

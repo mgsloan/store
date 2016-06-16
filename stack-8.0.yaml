@@ -2,8 +2,6 @@ resolver: nightly-2016-05-27
 packages:
 - .
 - store-core
-- location: deps/smallcheck
-  extra-dep: true
 - location: deps/weigh
   extra-dep: true
 extra-deps:

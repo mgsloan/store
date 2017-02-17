@@ -81,9 +81,12 @@ import           Data.HashMap.Strict (HashMap)
 import           Data.HashSet (HashSet)
 import           Data.Hashable (Hashable)
 import           Data.IntMap (IntMap)
+import qualified Data.IntMap.Strict as IntMap
 import           Data.IntSet (IntSet)
+import qualified Data.IntSet as IntSet
 import qualified Data.List.NonEmpty as NE
 import           Data.Map (Map)
+import qualified Data.Map.Strict as Map
 import           Data.MonoTraversable
 import           Data.Monoid
 import           Data.Orphans ()
@@ -92,6 +95,7 @@ import           Data.Proxy (Proxy(..))
 import           Data.Sequence (Seq)
 import           Data.Sequences (IsSequence, Index, replicateM)
 import           Data.Set (Set)
+import qualified Data.Set as Set
 import           Data.Store.Impl
 import           Data.Store.Core
 import           Data.Store.TH.Internal
@@ -463,7 +467,7 @@ instance Store a => Store (Seq a) where
 instance (Store a, Ord a) => Store (Set a) where
     size = sizeSet
     poke = pokeSet
-    peek = peekSet
+    peek = Set.fromDistinctAscList <$> peek
     {-# INLINE size #-}
     {-# INLINE peek #-}
     {-# INLINE poke #-}
@@ -471,7 +475,7 @@ instance (Store a, Ord a) => Store (Set a) where
 instance Store IntSet where
     size = sizeSet
     poke = pokeSet
-    peek = peekSet
+    peek = IntSet.fromDistinctAscList <$> peek
     {-# INLINE size #-}
     {-# INLINE peek #-}
     {-# INLINE poke #-}
@@ -479,7 +483,7 @@ instance Store IntSet where
 instance Store a => Store (IntMap a) where
     size = sizeMap
     poke = pokeMap
-    peek = peekMap
+    peek = IntMap.fromDistinctAscList <$> peek
     {-# INLINE size #-}
     {-# INLINE peek #-}
     {-# INLINE poke #-}
@@ -487,7 +491,7 @@ instance Store a => Store (IntMap a) where
 instance (Ord k, Store k, Store a) => Store (Map k a) where
     size = sizeMap
     poke = pokeMap
-    peek = peekMap
+    peek = Map.fromDistinctAscList <$> peek
     {-# INLINE size #-}
     {-# INLINE peek #-}
     {-# INLINE poke #-}

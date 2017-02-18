@@ -13,6 +13,10 @@ import           Control.DeepSeq
 import           Criterion.Main
 import qualified Data.ByteString as BS
 import           Data.Int
+import qualified Data.IntMap.Strict as IntMap
+import qualified Data.IntSet as IntSet
+import qualified Data.Map.Strict as Map
+import qualified Data.Set as Set
 import           Data.Store
 import           Data.Typeable
 import qualified Data.Vector as V
@@ -71,6 +75,16 @@ main = do
                        _ -> error "This does not compute."
                ) <$> V.enumFromTo 1 (100 :: Int)
         nestedTuples = (\i -> ((i,i+1),(i+2,i+3))) <$> V.enumFromTo (1::Int) 100
+
+        ints = [1..100] :: [Int]
+        pairs = map (\x -> (x, x)) ints
+        strings = show <$> ints
+        intsSet = Set.fromDistinctAscList ints
+        intSet = IntSet.fromDistinctAscList ints
+        intsMap = Map.fromDistinctAscList pairs
+        intMap = IntMap.fromDistinctAscList pairs
+        stringsSet = Set.fromList strings
+        stringsMap = Map.fromList (zip strings ints)
 #endif
     defaultMain
         [ bgroup "encode"
@@ -80,6 +94,12 @@ main = do
             , benchEncode' "10kb storable" (SV.fromList ([1..(256 * 10)] :: [Int32]))
             , benchEncode' "1kb normal" (V.fromList ([1..256] :: [Int32]))
             , benchEncode' "10kb normal" (V.fromList ([1..(256 * 10)] :: [Int32]))
+            , benchEncode intsSet
+            , benchEncode intSet
+            , benchEncode intsMap
+            , benchEncode intMap
+            , benchEncode stringsSet
+            , benchEncode stringsMap
 #endif
             , benchEncode smallprods
             , benchEncode smallmanualprods
@@ -95,6 +115,12 @@ main = do
             , benchDecode' "10kb storable" (SV.fromList ([1..(256 * 10)] :: [Int32]))
             , benchDecode' "1kb normal" (V.fromList ([1..256] :: [Int32]))
             , benchDecode' "10kb normal" (V.fromList ([1..(256 * 10)] :: [Int32]))
+            , benchDecode intsSet
+            , benchDecode intSet
+            , benchDecode intsMap
+            , benchDecode intMap
+            , benchDecode stringsSet
+            , benchDecode stringsMap
 #endif
             , benchDecode smallprods
             , benchDecode smallmanualprods

@@ -102,9 +102,11 @@ $(mkManyHasTypeHash [ [t| Int32 |] ])
 -- Serial instances for (Num a, Bounded a) types. Only really
 -- appropriate for the use here.
 
+#if !MIN_VERSION_network(3,1,0)
 instance Bounded PortNumber where
   minBound = 0
   maxBound = 65535
+#endif
 
 $(do let ns = [ ''PortNumber
 

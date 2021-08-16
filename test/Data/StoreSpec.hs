@@ -60,6 +60,9 @@ import           Foreign.Storable (Storable, sizeOf)
 import           GHC.Fingerprint.Type (Fingerprint(..))
 import           GHC.Generics
 import           GHC.Real (Ratio(..))
+#if MIN_VERSION_base(4,15,0)
+import           GHC.RTS.Flags (IoSubSystem(..))
+#endif
 import           Language.Haskell.TH
 import           Language.Haskell.TH.Syntax
 import           Network.Socket
@@ -249,6 +252,11 @@ instance Monad m => Serial m Time.UTCTime where
     series = uncurry Time.UTCTime <$> (series >< series)
 
 instance (Monad m, Serial m a) => Serial m (Tagged a)
+
+#if MIN_VERSION_base(4,15,0)
+instance Monad m => Serial m IoSubSystem where
+  series = cons0 IoPOSIX \/ cons0 IoNative
+#endif
 
 #if !MIN_VERSION_smallcheck(1,2,0)
 instance (Monad m, Serial m a) => Serial m (Complex a) where

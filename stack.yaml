@@ -1,7 +1,5 @@
-resolver: lts-16.12
+resolver: nightly-2021-08-16
 packages:
 - .
 - store-core
 - store-streaming
-extra-deps:
-- th-utilities-0.2.4.0

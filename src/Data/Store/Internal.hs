@@ -494,7 +494,11 @@ liftStaticSize tyq (StaticSize x) = do
     let numTy = litT $ numTyLit $ natVal (Proxy :: Proxy n)
     [| StaticSize $(lift x) :: StaticSize $(numTy) $(tyq) |]
 
+#if MIN_VERSION_template_haskell(2,17,0)
+staticByteStringExp :: Quote m => BS.ByteString -> m Exp
+#else
 staticByteStringExp :: BS.ByteString -> ExpQ
+#endif
 staticByteStringExp bs =
     [| StaticSize bs :: StaticSize $(litT (numTyLit (fromIntegral len))) BS.ByteString |]
   where

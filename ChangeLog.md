@@ -1,5 +1,9 @@
 # ChangeLog
 
+## Unreleased
+
+* Build with ghc-9.0.1
+
 ## 0.7.11
 
 * Fixes testsuite compilation with `network >= 3.1.2`. See [#159][].

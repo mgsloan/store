@@ -876,4 +876,4 @@ instance Store NameFlavour where
 #endif
 
 $(reifyManyWithoutInstances ''Store [''Info] (const True) >>=
-   mapM (\name -> return (deriveGenericInstance [] (ConT name))))
+   mapM deriveGenericInstanceFromName)

@@ -13,6 +13,7 @@ module Data.Store.TH.Internal
       deriveManyStoreFromStorable
     , deriveTupleStoreInstance
     , deriveGenericInstance
+    , deriveGenericInstanceFromName
     , deriveManyStorePrimVector
     , deriveManyStoreUnboxVector
     , deriveStore
@@ -261,6 +262,11 @@ deriveTupleStoreInstance n =
 
 deriveGenericInstance :: Cxt -> Type -> Dec
 deriveGenericInstance cs ty = plainInstanceD cs (AppT (ConT ''Store) ty) []
+
+deriveGenericInstanceFromName :: Name -> Q Dec
+deriveGenericInstanceFromName n = do
+    tvs <- map VarT . dtTvs <$> reifyDataType n
+    return $ deriveGenericInstance (map storePred tvs) (appsT (ConT n) tvs)
 
 ------------------------------------------------------------------------
 -- Storable

@@ -85,6 +85,7 @@ import           Data.Functor.Identity (Identity (..))
 import           Data.HashMap.Strict (HashMap)
 import           Data.HashSet (HashSet)
 import           Data.Hashable (Hashable)
+import           Data.Int
 import           Data.IntMap (IntMap)
 import qualified Data.IntMap.Strict as IntMap
 import           Data.IntSet (IntSet)
@@ -157,6 +158,16 @@ import qualified GHC.Integer.Simple.Internals as I
 import           GHC.Prim (sizeofByteArray#)
 #endif
 #endif
+
+-- TODO: higher arities?  Limited now by Generics instances for tuples
+$(return $ map deriveTupleStoreInstance [2..7])
+
+$(deriveManyStoreFromStorable
+  (\ty ->
+    case ty of
+      ConT n | elem n [''Char, ''Int, ''Int64, ''Word, ''Word8, ''Word32] -> True
+      _ -> False
+    ))
 
 ------------------------------------------------------------------------
 -- Utilities for defining list-like 'Store' instances in terms of 'IsSequence'
@@ -726,6 +737,8 @@ instance Store a => Store (Ratio a) where
 -- Similarly, manual implementation due to no Generic instance for
 -- Complex and Identity in GHC-7.10 and earlier.
 
+$($(derive [d| instance Deriving (Store (Fixed a)) |]))
+
 instance Store Time.DiffTime where
     size = contramap (realToFrac :: Time.DiffTime -> Pico) size
     poke = poke . (realToFrac :: Time.DiffTime -> Pico)
@@ -758,8 +771,6 @@ $($(derive [d|
     instance Deriving (Store Bool)
     instance (Store a, Store b) => Deriving (Store (Either a b))
 
-    instance Deriving (Store (Fixed a))
-
     instance Deriving (Store Time.AbsoluteTime)
     instance Deriving (Store Time.Day)
     instance Deriving (Store Time.LocalTime)
@@ -789,8 +800,7 @@ $($(derive [d|
 
     |]))
 
--- TODO: higher arities?  Limited now by Generics instances for tuples
-$(return $ map deriveTupleStoreInstance [2..7])
+$(deriveManyStorePrimVector)
 
 $(deriveManyStoreUnboxVector)
 
@@ -816,8 +826,6 @@ $(deriveManyStoreFromStorable
       ConT n | n == ''AddrInfo -> False
       _ -> True
     ))
-
-$(deriveManyStorePrimVector)
 
 $(reifyManyWithoutInstances ''Store [''ModName, ''NameSpace, ''PkgName] (const True) >>=
    mapM (\name -> return (deriveGenericInstance [] (ConT name))))

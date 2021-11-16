@@ -1,0 +1,326 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.34.5.
+--
+-- see: https://github.com/sol/hpack
+
+name:           store
+version:        0.7.13
+synopsis:       Fast binary serialization
+category:       Serialization, Data
+homepage:       https://github.com/mgsloan/store#readme
+bug-reports:    https://github.com/mgsloan/store/issues
+maintainer:     Michael Sloan <mgsloan@gmail.com>
+copyright:      2016 FP Complete
+license:        MIT
+license-file:   LICENSE
+build-type:     Simple
+tested-with:
+    GHC==9.0.1
+  , GHC==8.8.4
+  , GHC==8.6.5
+  , GHC==8.4.4
+  , GHC==8.2.2
+  , GHC==8.0.2
+  , GHC==7.10.3
+extra-source-files:
+    ChangeLog.md
+    README.md
+
+source-repository head
+  type: git
+  location: https://github.com/mgsloan/store
+
+flag comparison-bench
+  manual: True
+  default: False
+
+flag integer-simple
+  description: Use the [simple integer library](http://hackage.haskell.org/package/integer-simple) instead of [integer-gmp](http://hackage.haskell.org/package/integer-gmp)
+  manual: False
+  default: False
+
+flag small-bench
+  manual: True
+  default: False
+
+library
+  exposed-modules:
+      Data.Store
+      Data.Store.Internal
+      Data.Store.TH
+      Data.Store.TH.Internal
+      Data.Store.TypeHash
+      Data.Store.TypeHash.Internal
+      Data.Store.Version
+      System.IO.ByteBuffer
+  other-modules:
+      Data.Store.Impl
+  hs-source-dirs:
+      src
+  ghc-options: -Wall -fwarn-tabs -fwarn-incomplete-uni-patterns -fwarn-incomplete-record-updates -O2
+  build-depends:
+      array >=0.5.0.0
+    , async >=2.0.2
+    , base >=4.7 && <5
+    , base-orphans >=0.4.3
+    , base64-bytestring >=0.1.1
+    , bifunctors >=4.0
+    , bytestring >=0.10.4.0
+    , containers >=0.5.5.1
+    , contravariant >=1.3
+    , cryptohash >=0.11.6
+    , deepseq >=1.3.0.2
+    , directory >=1.2
+    , filepath >=1.3
+    , free >=4.11
+    , ghc-prim >=0.3.1.0
+    , hashable >=1.2.3.1
+    , hspec >=2.1.2
+    , hspec-smallcheck >=0.3.0
+    , lifted-base >=0.2.3.3
+    , monad-control >=0.3.3.0
+    , mono-traversable >=0.7.0
+    , nats >=1
+    , network >=2.6.0.2
+    , primitive >=0.6
+    , resourcet >=1.1.3.3
+    , safe >=0.3.8
+    , smallcheck >=1.1.1
+    , store-core ==0.4.*
+    , syb >=0.4.4
+    , template-haskell >=2.9.0.0
+    , text >=1.2.0.4
+    , th-lift >=0.7.1
+    , th-lift-instances >=0.1.4
+    , th-orphans >=0.13.2
+    , th-reify-many >=0.1.6
+    , th-utilities >=0.2
+    , time >=1.5
+    , transformers >=0.3.0.0
+    , unordered-containers >=0.2.5.1
+    , vector >=0.10.12.3
+    , void >=0.5.11
+  if flag(integer-simple)
+    build-depends:
+        integer-simple >=0.1.1.1
+  else
+    cpp-options: -DINTEGER_GMP
+    build-depends:
+        integer-gmp >=0.5.1.0
+  if impl(ghc < 8.0)
+    build-depends:
+        fail >=4.9
+      , semigroups >=0.8
+  default-language: Haskell2010
+
+test-suite store-test
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  other-modules:
+      Data.Store.UntrustedSpec
+      Data.StoreSpec
+      Data.StoreSpec.TH
+      System.IO.ByteBufferSpec
+  hs-source-dirs:
+      test
+  ghc-options: -Wall -fwarn-tabs -fwarn-incomplete-uni-patterns -fwarn-incomplete-record-updates -O2 -threaded -rtsopts -with-rtsopts=-N
+  build-tool-depends:
+      hspec-discover:hspec-discover
+  build-depends:
+      array >=0.5.0.0
+    , async >=2.0.2
+    , base >=4.7 && <5
+    , base-orphans >=0.4.3
+    , base64-bytestring >=0.1.1
+    , bifunctors >=4.0
+    , bytestring >=0.10.4.0
+    , clock >=0.3
+    , containers >=0.5.5.1
+    , contravariant >=1.3
+    , cryptohash >=0.11.6
+    , deepseq >=1.3.0.2
+    , directory >=1.2
+    , filepath >=1.3
+    , free >=4.11
+    , ghc-prim >=0.3.1.0
+    , hashable >=1.2.3.1
+    , hspec >=2.1.2
+    , hspec-smallcheck >=0.3.0
+    , lifted-base >=0.2.3.3
+    , monad-control >=0.3.3.0
+    , mono-traversable >=0.7.0
+    , nats >=1
+    , network >=2.6.0.2
+    , primitive >=0.6
+    , resourcet >=1.1.3.3
+    , safe >=0.3.8
+    , smallcheck >=1.1.1
+    , store
+    , store-core ==0.4.*
+    , syb >=0.4.4
+    , template-haskell >=2.9.0.0
+    , text >=1.2.0.4
+    , th-lift >=0.7.1
+    , th-lift-instances >=0.1.4
+    , th-orphans >=0.13.2
+    , th-reify-many >=0.1.6
+    , th-utilities >=0.2
+    , time >=1.5
+    , transformers >=0.3.0.0
+    , unordered-containers >=0.2.5.1
+    , vector >=0.10.12.3
+    , void >=0.5.11
+  if flag(integer-simple)
+    build-depends:
+        integer-simple >=0.1.1.1
+  else
+    cpp-options: -DINTEGER_GMP
+    build-depends:
+        integer-gmp >=0.5.1.0
+  if impl(ghc < 8.0)
+    build-depends:
+        fail >=4.9
+      , semigroups >=0.8
+  default-language: Haskell2010
+
+benchmark store-bench
+  type: exitcode-stdio-1.0
+  main-is: Bench.hs
+  other-modules:
+      Paths_store
+  hs-source-dirs:
+      bench
+  ghc-options: -Wall -fwarn-tabs -fwarn-incomplete-uni-patterns -fwarn-incomplete-record-updates -O2 -threaded -rtsopts -with-rtsopts=-N1 -with-rtsopts=-s -with-rtsopts=-qg
+  build-depends:
+      array >=0.5.0.0
+    , async >=2.0.2
+    , base >=4.7 && <5
+    , base-orphans >=0.4.3
+    , base64-bytestring >=0.1.1
+    , bifunctors >=4.0
+    , bytestring >=0.10.4.0
+    , containers >=0.5.5.1
+    , contravariant >=1.3
+    , criterion
+    , cryptohash >=0.11.6
+    , deepseq >=1.3.0.2
+    , directory >=1.2
+    , filepath >=1.3
+    , free >=4.11
+    , ghc-prim >=0.3.1.0
+    , hashable >=1.2.3.1
+    , hspec >=2.1.2
+    , hspec-smallcheck >=0.3.0
+    , lifted-base >=0.2.3.3
+    , monad-control >=0.3.3.0
+    , mono-traversable >=0.7.0
+    , nats >=1
+    , network >=2.6.0.2
+    , primitive >=0.6
+    , resourcet >=1.1.3.3
+    , safe >=0.3.8
+    , smallcheck >=1.1.1
+    , store
+    , store-core ==0.4.*
+    , syb >=0.4.4
+    , template-haskell >=2.9.0.0
+    , text >=1.2.0.4
+    , th-lift >=0.7.1
+    , th-lift-instances >=0.1.4
+    , th-orphans >=0.13.2
+    , th-reify-many >=0.1.6
+    , th-utilities >=0.2
+    , time >=1.5
+    , transformers >=0.3.0.0
+    , unordered-containers >=0.2.5.1
+    , vector >=0.10.12.3
+    , void >=0.5.11
+  if flag(integer-simple)
+    build-depends:
+        integer-simple >=0.1.1.1
+  else
+    cpp-options: -DINTEGER_GMP
+    build-depends:
+        integer-gmp >=0.5.1.0
+  if impl(ghc < 8.0)
+    build-depends:
+        fail >=4.9
+      , semigroups >=0.8
+  if flag(comparison-bench)
+    cpp-options: -DCOMPARISON_BENCH
+    build-depends:
+        binary
+      , cereal
+      , cereal-vector
+      , vector-binary-instances
+  if flag(small-bench)
+    cpp-options: -DSMALL_BENCH
+  default-language: Haskell2010
+
+benchmark store-weigh
+  type: exitcode-stdio-1.0
+  main-is: Allocations.hs
+  hs-source-dirs:
+      test
+  ghc-options: -Wall -fwarn-tabs -fwarn-incomplete-uni-patterns -fwarn-incomplete-record-updates -O2 -threaded -rtsopts -with-rtsopts=-N -with-rtsopts=-T -O2
+  build-depends:
+      array >=0.5.0.0
+    , async >=2.0.2
+    , base >=4.7 && <5
+    , base-orphans >=0.4.3
+    , base64-bytestring >=0.1.1
+    , bifunctors >=4.0
+    , bytestring >=0.10.4.0
+    , cereal
+    , cereal-vector
+    , containers >=0.5.5.1
+    , contravariant >=1.3
+    , criterion
+    , cryptohash >=0.11.6
+    , deepseq >=1.3.0.2
+    , directory >=1.2
+    , filepath >=1.3
+    , free >=4.11
+    , ghc-prim >=0.3.1.0
+    , hashable >=1.2.3.1
+    , hspec >=2.1.2
+    , hspec-smallcheck >=0.3.0
+    , lifted-base >=0.2.3.3
+    , monad-control >=0.3.3.0
+    , mono-traversable >=0.7.0
+    , nats >=1
+    , network >=2.6.0.2
+    , primitive >=0.6
+    , resourcet >=1.1.3.3
+    , safe >=0.3.8
+    , smallcheck >=1.1.1
+    , store
+    , store-core ==0.4.*
+    , syb >=0.4.4
+    , template-haskell >=2.9.0.0
+    , text >=1.2.0.4
+    , th-lift >=0.7.1
+    , th-lift-instances >=0.1.4
+    , th-orphans >=0.13.2
+    , th-reify-many >=0.1.6
+    , th-utilities >=0.2
+    , time >=1.5
+    , transformers >=0.3.0.0
+    , unordered-containers >=0.2.5.1
+    , vector >=0.10.12.3
+    , vector-binary-instances
+    , void >=0.5.11
+    , weigh
+  if flag(integer-simple)
+    build-depends:
+        integer-simple >=0.1.1.1
+  else
+    cpp-options: -DINTEGER_GMP
+    build-depends:
+        integer-gmp >=0.5.1.0
+  if impl(ghc < 8.0)
+    build-depends:
+        fail >=4.9
+      , semigroups >=0.8
+  default-language: Haskell2010

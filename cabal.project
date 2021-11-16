@@ -1,0 +1,4 @@
+packages:
+  .
+  store-core
+  store-streaming

@@ -14,7 +14,7 @@ cabal.sandbox.config
 *.aux
 *.hp
 .stack-work/
-*.cabal
 *.yaml.lock
+dist-newstyle/
 
 stack-9.0.1.yaml

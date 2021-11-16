@@ -1,0 +1,6 @@
+-- Configuration for haskell-ci
+
+branches: master
+
+-- `cabal-check` doesn't like `-O2`
+cabal-check: False

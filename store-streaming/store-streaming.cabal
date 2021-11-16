@@ -1,0 +1,90 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.34.5.
+--
+-- see: https://github.com/sol/hpack
+
+name:           store-streaming
+version:        0.2.0.3
+synopsis:       Streaming interfaces for `store`
+category:       Serialization, Data
+homepage:       https://github.com/fpco/store#readme
+bug-reports:    https://github.com/fpco/store/issues
+maintainer:     Michael Sloan <mgsloan@gmail.com>
+copyright:      2016 FP Complete
+license:        MIT
+license-file:   LICENSE
+build-type:     Simple
+tested-with:
+    GHC==9.0.1
+  , GHC==8.8.4
+  , GHC==8.6.5
+  , GHC==8.4.4
+  , GHC==8.2.2
+  , GHC==8.0.2
+  , GHC==7.10.3
+extra-source-files:
+    ChangeLog.md
+
+source-repository head
+  type: git
+  location: https://github.com/fpco/store
+
+library
+  exposed-modules:
+      Data.Store.Streaming
+      Data.Store.Streaming.Internal
+  other-modules:
+      Paths_store_streaming
+  hs-source-dirs:
+      src
+  ghc-options: -Wall -fwarn-tabs -fwarn-incomplete-uni-patterns -fwarn-incomplete-record-updates -O2
+  build-depends:
+      async >=2.0.2
+    , base >=4.7 && <5
+    , bytestring >=0.10.4.0
+    , conduit >=1.2.3.1
+    , free >=4.11
+    , resourcet >=1.1.3.3
+    , store >=0.4.3.4
+    , store-core >=0.4.1
+    , streaming-commons >=0.1.10.0
+    , text >=1.2.0.4
+    , transformers >=0.3.0.0
+  if impl(ghc < 8.0)
+    build-depends:
+        fail >=4.9
+  default-language: Haskell2010
+
+test-suite store-test
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  other-modules:
+      Data.Store.StreamingSpec
+  hs-source-dirs:
+      test
+  ghc-options: -Wall -fwarn-tabs -fwarn-incomplete-uni-patterns -fwarn-incomplete-record-updates -O2 -threaded -rtsopts -with-rtsopts=-N
+  build-tool-depends:
+      hspec-discover:hspec-discover
+  build-depends:
+      async >=2.0.2
+    , base >=4.7 && <5
+    , bytestring >=0.10.4.0
+    , conduit >=1.2.3.1
+    , free >=4.11
+    , hspec
+    , hspec-smallcheck
+    , network
+    , resourcet >=1.1.3.3
+    , smallcheck
+    , store
+    , store-core >=0.4.1
+    , store-streaming
+    , streaming-commons >=0.1.10.0
+    , text >=1.2.0.4
+    , transformers >=0.3.0.0
+    , void
+  if impl(ghc < 8.0)
+    build-depends:
+        fail >=4.9
+  default-language: Haskell2010

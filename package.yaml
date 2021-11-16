@@ -9,6 +9,15 @@ category: Serialization, Data
 extra-source-files:
   - ChangeLog.md
   - README.md
+tested-with:
+  - GHC==9.0.1
+  # - GHC==8.10.7
+  - GHC==8.8.4
+  - GHC==8.6.5
+  - GHC==8.4.4
+  - GHC==8.2.2
+  - GHC==8.0.2
+  - GHC==7.10.3
 
 flags:
   comparison-bench:
@@ -71,7 +80,7 @@ dependencies:
   - th-lift >=0.7.1
   - th-lift-instances >=0.1.4
   - th-orphans >= 0.13.2
-  - time >=1.4.2
+  - time >=1.5
   - transformers >=0.3.0.0
   - unordered-containers >=0.2.5.1
   - vector >=0.10.12.3
@@ -111,6 +120,7 @@ tests:
     dependencies:
       - store
       - clock >=0.3
+    build-tools: hspec-discover:hspec-discover
 
 benchmarks:
   store-bench:

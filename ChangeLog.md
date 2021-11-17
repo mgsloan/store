@@ -1,5 +1,13 @@
 # ChangeLog
 
+## 0.7.14
+
+* Fixes build with ghc-8.10 (broken in last release due to differences
+  in TH API). See [#165][].
+
+[#165]: https://github.com/mgsloan/store/issues/165
+
+
 ## 0.7.13
 
 * Fix build with `time >= 1.11`. See [#162][].

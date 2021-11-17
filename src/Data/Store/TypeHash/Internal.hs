@@ -63,8 +63,10 @@ instance NFData TypeHash
 
 instance Lift TypeHash where
     lift = staticByteStringExp . unStaticSize . unTypeHash
-#if MIN_VERSION_template_haskell(2,16,0)
+#if MIN_VERSION_template_haskell(2,17,0)
     liftTyped = Code . unsafeTExpCoerce . lift
+#elif MIN_VERSION_template_haskell(2,16,0)
+    liftTyped = unsafeTExpCoerce . lift
 #endif
 
 reifyManyTyDecls :: ((Name, Info) -> Q (Bool, [Name]))

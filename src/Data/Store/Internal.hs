@@ -443,6 +443,19 @@ instance Store LBS.ByteString where
     peek = fmap LBS.fromStrict peek
 
 instance Store T.Text where
+#if MIN_VERSION_text(2,0,0)
+    size = VarSize $ \x ->
+        sizeOf (undefined :: Int) +
+        T.lengthWord8 x
+    poke x = do
+        let !(T.Text (TA.ByteArray array) w8Off w8Len) = x
+        poke w8Len
+        pokeFromByteArray array w8Off w8Len
+    peek = do
+        w8Len <- peek
+        ByteArray array <- peekToByteArray "Data.Text.Text" w8Len
+        return (T.Text (TA.ByteArray array) 0 w8Len)
+#else
     size = VarSize $ \x ->
         sizeOf (undefined :: Int) +
         2 * (T.lengthWord16 x)
@@ -454,6 +467,7 @@ instance Store T.Text where
         w16Len <- peek
         ByteArray array <- peekToByteArray "Data.Text.Text" (2 * w16Len)
         return (T.Text (TA.Array array) 0 w16Len)
+#endif
 
 ------------------------------------------------------------------------
 -- Known size instances

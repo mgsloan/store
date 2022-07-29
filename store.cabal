@@ -1,6 +1,6 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.34.4.
+-- This file has been generated from package.yaml by hpack version 0.35.0.
 --
 -- see: https://github.com/sol/hpack
 
@@ -100,8 +100,9 @@ library
     , time >=1.5
     , transformers >=0.3.0.0
     , unordered-containers >=0.2.5.1
-    , vector >=0.10.12.3
+    , vector >=0.10.12.3 && <0.13
     , void >=0.5.11
+  default-language: Haskell2010
   if flag(integer-simple)
     build-depends:
         integer-simple >=0.1.1.1
@@ -113,7 +114,6 @@ library
     build-depends:
         fail >=4.9
       , semigroups >=0.8
-  default-language: Haskell2010
 
 test-suite store-test
   type: exitcode-stdio-1.0
@@ -170,8 +170,9 @@ test-suite store-test
     , time >=1.5
     , transformers >=0.3.0.0
     , unordered-containers >=0.2.5.1
-    , vector >=0.10.12.3
+    , vector >=0.10.12.3 && <0.13
     , void >=0.5.11
+  default-language: Haskell2010
   if flag(integer-simple)
     build-depends:
         integer-simple >=0.1.1.1
@@ -183,7 +184,6 @@ test-suite store-test
     build-depends:
         fail >=4.9
       , semigroups >=0.8
-  default-language: Haskell2010
 
 benchmark store-bench
   type: exitcode-stdio-1.0
@@ -235,8 +235,9 @@ benchmark store-bench
     , time >=1.5
     , transformers >=0.3.0.0
     , unordered-containers >=0.2.5.1
-    , vector >=0.10.12.3
+    , vector >=0.10.12.3 && <0.13
     , void >=0.5.11
+  default-language: Haskell2010
   if flag(integer-simple)
     build-depends:
         integer-simple >=0.1.1.1
@@ -257,7 +258,6 @@ benchmark store-bench
       , vector-binary-instances
   if flag(small-bench)
     cpp-options: -DSMALL_BENCH
-  default-language: Haskell2010
 
 benchmark store-weigh
   type: exitcode-stdio-1.0
@@ -309,10 +309,11 @@ benchmark store-weigh
     , time >=1.5
     , transformers >=0.3.0.0
     , unordered-containers >=0.2.5.1
-    , vector >=0.10.12.3
+    , vector >=0.10.12.3 && <0.13
     , vector-binary-instances
     , void >=0.5.11
     , weigh
+  default-language: Haskell2010
   if flag(integer-simple)
     build-depends:
         integer-simple >=0.1.1.1
@@ -324,4 +325,3 @@ benchmark store-weigh
     build-depends:
         fail >=4.9
       , semigroups >=0.8
-  default-language: Haskell2010

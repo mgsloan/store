@@ -86,6 +86,7 @@ import qualified Data.Time.Format.ISO8601 as Time
 #endif
 #if MIN_VERSION_time(1,11,0)
 import qualified Data.Time.Calendar.Quarter as Time
+import qualified Data.Time.Calendar.WeekDate as Time
 #endif
 
 #if !MIN_VERSION_smallcheck(1,2,0)

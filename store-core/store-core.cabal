@@ -1,11 +1,11 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.35.2.
+-- This file has been generated from package.yaml by hpack version 0.35.1.
 --
 -- see: https://github.com/sol/hpack
 
 name:           store-core
-version:        0.4.4.4
+version:        0.4.4.5
 synopsis:       Fast and lightweight binary serialization
 category:       Serialization, Data
 homepage:       https://github.com/fpco/store#readme
@@ -16,13 +16,14 @@ license:        MIT
 license-file:   LICENSE
 build-type:     Simple
 tested-with:
-    GHC==9.4.5
-  , GHC==9.2.8
-  , GHC==9.0.2
-  , GHC==8.10.7
+    GHC==9.0.1
+  , GHC==8.10.4
   , GHC==8.8.4
   , GHC==8.6.5
   , GHC==8.4.4
+  , GHC==8.2.2
+  , GHC==8.0.2
+  , GHC==7.10.3
 extra-source-files:
     ChangeLog.md
 

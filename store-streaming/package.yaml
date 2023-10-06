@@ -1,5 +1,5 @@
 name: store-streaming
-version: "0.2.0.4"
+version: "0.2.0.5"
 synopsis: Streaming interfaces for `store`
 maintainer: Michael Sloan <mgsloan@gmail.com>
 license: MIT

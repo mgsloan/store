@@ -1,5 +1,5 @@
 name: store-core
-version: "0.4.4.6"
+version: "0.4.4.7"
 synopsis: Fast and lightweight binary serialization
 maintainer: Michael Sloan <mgsloan@gmail.com>
 license: MIT

@@ -53,6 +53,9 @@ import qualified Data.Vector as V
 import qualified Data.Vector.Primitive as PV
 import qualified Data.Vector.Storable as SV
 import qualified Data.Vector.Unboxed as UV
+#if MIN_VERSION_vector(0,13,2)
+import qualified Data.Vector.Strict as SCV
+#endif
 import           Data.Word
 import           Foreign.C.Types
 import           Foreign.Ptr
@@ -178,6 +181,21 @@ $(do let ns = [ ''Dual, ''Sum, ''Product, ''First, ''Last ]
          f n = [d| instance (Monad m, Serial m a) => Serial m ($(conT n) a) |]
      concat <$> mapM f ns)
 
+-- Instances for DoNotUnbox types introduced in vector-0.13.2.0
+#if MIN_VERSION_vector(0,13,2)
+$(do let ns = [ ''UV.DoNotUnboxLazy, ''UV.DoNotUnboxStrict, ''UV.DoNotUnboxNormalForm ]
+         f n = [d| instance (Monad m, Serial m a) => Serial m ($(conT n) a) |]
+     concat <$> mapM f ns)
+
+deriving instance Eq a => Eq (UV.DoNotUnboxLazy a)
+deriving instance Eq a => Eq (UV.DoNotUnboxNormalForm a)
+deriving instance Eq a => Eq (UV.DoNotUnboxStrict a)
+
+deriving instance Show a => Show (UV.DoNotUnboxLazy a)
+deriving instance Show a => Show (UV.DoNotUnboxNormalForm a)
+deriving instance Show a => Show (UV.DoNotUnboxStrict a)
+#endif
+
 instance Monad m => Serial m Any where
     series = fmap Any series
 
@@ -201,6 +219,11 @@ instance (Monad m, Serial m a, Storable a) => Serial m (SV.Vector a) where
 
 instance (Monad m, Serial m a) => Serial m (V.Vector a) where
     series = fmap V.fromList series
+
+#if MIN_VERSION_vector(0,13,2)
+instance (Monad m, Serial m a) => Serial m (SCV.Vector a) where
+    series = fmap SCV.fromList series
+#endif
 
 instance (Monad m, Serial m k, Serial m a, Ord k) => Serial m (Map k a) where
     series = fmap mapFromList series
@@ -395,6 +418,12 @@ spec = do
         $(smallcheckManyStore verbose 4
             [ [t| SV.Vector Int8 |]
             , [t| V.Vector  Int8 |]
+#if MIN_VERSION_vector(0,13,2)
+            , [t| SCV.Vector Int8 |]
+            , [t| UV.DoNotUnboxLazy Int8 |]
+            , [t| UV.DoNotUnboxStrict Int8 |]
+            , [t| UV.DoNotUnboxNormalForm Int8 |]
+#endif
             , [t| SerialRatio     Int8 |]
             , [t| Complex   Int8 |]
             , [t| Dual      Int8 |]
@@ -406,6 +435,12 @@ spec = do
             , [t| Either    Int8 Int8 |]
             , [t| SV.Vector Int64 |]
             , [t| V.Vector  Int64 |]
+#if MIN_VERSION_vector(0,13,2)
+            , [t| SCV.Vector Int64 |]
+            , [t| UV.DoNotUnboxLazy Int64 |]
+            , [t| UV.DoNotUnboxStrict Int64 |]
+            , [t| UV.DoNotUnboxNormalForm Int64 |]
+#endif
             , [t| SerialRatio     Int64 |]
             , [t| Complex   Int64 |]
             , [t| Dual      Int64 |]
@@ -445,6 +480,9 @@ spec = do
         assertRoundtrip False $ BS.drop 3 $ BS.take 3 "Hello world!"
         assertRoundtrip False $ SV.drop 3 $ SV.take 3 (SV.fromList [1..10] :: SV.Vector Int32)
         assertRoundtrip False $ UV.drop 3 $ UV.take 3 (UV.fromList [1..10] :: UV.Vector Word8)
+#if MIN_VERSION_vector(0,13,2)
+        assertRoundtrip False $ SCV.drop 3 $ SCV.take 3 (SCV.fromList [1..10] :: SCV.Vector Word8)
+#endif
         (return () :: IO ())
     it "StaticSize roundtrips" $ do
         let x :: StaticSize 17 BS.ByteString

@@ -386,7 +386,7 @@ instance Store a => Store (V.Vector a) where
     poke = pokeSequence
     peek = V.unsafeFreeze =<< peekMutableSequence MV.new MV.write
 
-#ifdef MIN_VERSION_vector(0,13,2)
+#if MIN_VERSION_vector(0,13,2)
 instance Store a => Store (SCV.Vector a) where
     size = sizeSequence
     poke = pokeSequence

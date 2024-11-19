@@ -1,5 +1,11 @@
 # ChangeLog
 
+## 0.7.19
+
+* Adds support for `vector-0.13.2.0`. See [#179][].
+
+[#174]: https://github.com/mgsloan/store/issues/179
+
 ## 0.7.16
 
 * Adds support for `vector-0.13.0.0`. See [#174][].

@@ -4,6 +4,7 @@
 {-# LANGUAGE DeriveDataTypeable #-}
 {-# LANGUAGE DeriveFunctor #-}
 {-# LANGUAGE DeriveGeneric #-}
+{-# LANGUAGE DerivingStrategies #-}
 {-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
@@ -792,12 +793,9 @@ instance Store a => Store (Maybe a)
 instance Store a => Store (Const a b)
 
 #if MIN_VERSION_vector(0,13,2)
-instance Store a => Store (UV.DoNotUnboxLazy a)
-deriving instance Generic (UV.DoNotUnboxLazy a)
-instance Store a => Store (UV.DoNotUnboxStrict a)
-deriving instance Generic (UV.DoNotUnboxStrict a)
-instance Store a => Store (UV.DoNotUnboxNormalForm a)
-deriving instance Generic (UV.DoNotUnboxNormalForm a)
+deriving newtype instance Store a => Store (UV.DoNotUnboxLazy a)
+deriving newtype instance Store a => Store (UV.DoNotUnboxStrict a)
+deriving newtype instance Store a => Store (UV.DoNotUnboxNormalForm a)
 #endif
 
 ------------------------------------------------------------------------

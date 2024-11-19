@@ -363,8 +363,12 @@ deriveManyStoreUnboxVector = do
               Nothing -> do
                 reportWarning $ "No Unbox instance found for " ++ pprint headTy
                 return ([], ty)
-              Just (TypeclassInstance cs (AppT _ ty') _) ->
-                return (map substituteConstraint cs, AppT (ConT ''UV.Vector) ty')
+              Just (TypeclassInstance cs (AppT _ ty') _) -> case ty' of
+                AppT (ConT conName) arg ->
+                  if nameBase conName `elem` doNotUnboxConstructors
+                    then return ([AppT (ConT ''Store) arg], AppT (ConT ''UV.Vector) ty')
+                    else return (map substituteConstraint cs, AppT (ConT ''UV.Vector) ty')
+                _ -> return (map substituteConstraint cs, AppT (ConT ''UV.Vector) ty')
               Just _ -> fail "Impossible case"
             deriveStore preds ty' cons
         _ -> fail "impossible case in deriveManyStoreUnboxVector"
@@ -403,6 +407,10 @@ getUnboxInfo = do
 -- See issue #174
 skippedUnboxConstructors :: [String]
 skippedUnboxConstructors = ["MV_UnboxAs", "V_UnboxAs", "MV_UnboxViaPrim", "V_UnboxViaPrim"]
+
+-- See issue #179
+doNotUnboxConstructors :: [String]
+doNotUnboxConstructors = ["DoNotUnboxLazy","DoNotUnboxStrict","DoNotUnboxNormalForm"]
 
 ------------------------------------------------------------------------
 -- Utilities

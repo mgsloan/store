@@ -1,0 +1,11 @@
+resolver: lts-22.43
+packages:
+  - .
+  - store-core
+  - store-streaming
+extra-deps:
+  - vector-0.13.2.0
+  - git: https://github.com/snoyberg/mono-traversable
+    commit: 95c991b1bcf4a01b87497f87a578e5204e3ac55d
+    subdirs:
+      - mono-traversable

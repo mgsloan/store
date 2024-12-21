@@ -187,6 +187,10 @@ $(do let ns = [ ''UV.DoNotUnboxLazy, ''UV.DoNotUnboxStrict, ''UV.DoNotUnboxNorma
          f n = [d| instance (Monad m, Serial m a) => Serial m ($(conT n) a) |]
      concat <$> mapM f ns)
 
+deriving instance Generic (UV.DoNotUnboxLazy a)
+deriving instance Generic (UV.DoNotUnboxNormalForm a)
+deriving instance Generic (UV.DoNotUnboxStrict a)
+
 deriving instance Eq a => Eq (UV.DoNotUnboxLazy a)
 deriving instance Eq a => Eq (UV.DoNotUnboxNormalForm a)
 deriving instance Eq a => Eq (UV.DoNotUnboxStrict a)

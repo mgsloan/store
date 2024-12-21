@@ -1,5 +1,5 @@
 name: store
-version: "0.7.19"
+version: "0.7.20"
 synopsis: Fast binary serialization
 maintainer: Michael Sloan <mgsloan@gmail.com>
 license: MIT

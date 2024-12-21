@@ -1,5 +1,11 @@
 # ChangeLog
 
+## 0.7.20
+
+* Fixes build of test with `vector-0.13.2.0`. See [#181][].
+
+[#181]: https://github.com/mgsloan/store/issues/181
+
 ## 0.7.19
 
 * Adds support for `vector-0.13.2.0`. See [#179][].

@@ -5,7 +5,7 @@ cabal-version: 1.12
 -- see: https://github.com/sol/hpack
 
 name:           store
-version:        0.7.19
+version:        0.7.20
 synopsis:       Fast binary serialization
 category:       Serialization, Data
 homepage:       https://github.com/mgsloan/store#readme

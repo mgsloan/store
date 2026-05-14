@@ -391,8 +391,16 @@ spec = do
              omitTys <- (omitTys0 ++) <$> mapM (\ty -> [t| PV.Vector $(pure ty) |]) omitTys0
              let f ty = isMonoType ty && ty `notElem` omitTys && null (listify isThName ty)
                  filtered = filter f insts
-                 -- Roundtrip testing of TH instances is disabled - see issue #150
-                 isThName n = nameModule n == Just "Language.Haskell.TH.Syntax"
+                 -- Roundtrip testing of TH instances is disabled - see issue #150.
+                 -- GHC 9.10+ ships template-haskell inside `ghc-internal`, so
+                 -- `nameModule` returns `GHC.Internal.TH.Syntax` for TH AST
+                 -- types (Type, TySynEqn, PkgName, SourceUnpackedness, ...).
+                 -- Match both module names so the filter keeps working on both
+                 -- old and new GHCs. See issue #182.
+                 isThName n = nameModule n `elem`
+                              [ Just "Language.Haskell.TH.Syntax"
+                              , Just "GHC.Internal.TH.Syntax"
+                              ]
              smallcheckManyStore verbose 2 $ map return filtered)
     it "Store on non-numeric Float/Double values" $ do
         let testNonNumeric :: forall a m. (RealFloat a, Eq a, Show a, Typeable a, Store a, Monad m, MonadFail m) => Proxy a -> m ()

@@ -1,5 +1,17 @@
 # ChangeLog
 
+## Unreleased
+
+* Fix test compilation on GHC 9.10+, where `template-haskell` types
+  (`Type`, `TySynEqn`, `PkgName`, etc.) live in `GHC.Internal.TH.Syntax`
+  rather than `Language.Haskell.TH.Syntax`. The `isThName` filter that
+  skips TH AST types from the auto-generated `Store` roundtrip enumeration
+  was matching only the old module name and silently let the TH types
+  through, causing `No instance for 'Serial IO Type'` style errors.
+  See [#182][].
+
+[#182]: https://github.com/mgsloan/store/issues/182
+
 ## 0.7.20
 
 * Fixes build of test with `vector-0.13.2.0`. See [#181][].

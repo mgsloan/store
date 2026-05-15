@@ -2,6 +2,18 @@
 
 ## Unreleased
 
+* Fix test compilation on platforms where libc lacks POSIX `timer_t`
+  (e.g. macOS), so `System.Posix.Types.CTimer` is not exported. The test
+  guarded `[t| CTimer |]` with `#if MIN_VERSION_base(4,10,0)`, but
+  `CTimer`'s availability is platform-dependent (gated on `HTYPE_TIMER_T`
+  by base's `configure`), not base-version-dependent. Use `lookupTypeName`
+  to detect the symbol at splice time.
+  See [#185][].
+
+[#185]: https://github.com/mgsloan/store/pull/185
+
+## 0.7.21
+
 * Fix test compilation on GHC 9.10+, where `template-haskell` types
   (`Type`, `TySynEqn`, `PkgName`, etc.) live in `GHC.Internal.TH.Syntax`
   rather than `Language.Haskell.TH.Syntax`. The `isThName` filter that

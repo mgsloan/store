@@ -345,6 +345,7 @@ spec :: Spec
 spec = do
     describe "Store on all monomorphic instances"
         $(do insts <- getAllInstanceTypes1 ''Store
+             ctimer <- maybe [] (pure . conT) <$> lookupTypeName "CTimer"
              omitTys0 <- sequence $
 #if !MIN_VERSION_primitive(0,7,0)
                  [t| Addr |] :
@@ -356,14 +357,13 @@ spec = do
                  , [t| TypeHash |]
                  , [t| Fd |]
                  , [t| NameFlavour |]
-#if MIN_VERSION_base(4,10,0)
-                 , [t| CTimer |]
-#endif
+                 ]
+              ++ ctimer
 
 -- Assume the TH generated instances for Time work, to avoid defining
 -- Serial instances. Also some lack Show / Eq.
 
-                 , [t| Time.AbsoluteTime |]
+              ++ [ [t| Time.AbsoluteTime |]
                  , [t| Time.Day |]
                  , [t| Time.LocalTime |]
                  , [t| Time.TimeOfDay |]

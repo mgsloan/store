@@ -1,4 +1,4 @@
-resolver: nightly-2021-08-16
+resolver: nightly-2024-11-03
 packages:
 - .
 - store-core

@@ -1,11 +1,11 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.39.1.
+-- This file has been generated from package.yaml by hpack version 0.39.5.
 --
 -- see: https://github.com/sol/hpack
 
 name:           store
-version:        0.7.21
+version:        0.7.22
 synopsis:       Fast binary serialization
 category:       Serialization, Data
 homepage:       https://github.com/mgsloan/store#readme

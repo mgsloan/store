@@ -1,6 +1,6 @@
 # ChangeLog
 
-## Unreleased
+## 0.7.22
 
 * Fix test compilation on platforms where libc lacks POSIX `timer_t`
   (e.g. macOS), so `System.Posix.Types.CTimer` is not exported. The test

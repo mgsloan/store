@@ -177,9 +177,13 @@ $(do tys <- getAllInstanceTypes1 ''PV.Prim
                       series = fmap PV.fromList series |]
      concat <$> mapM f (filter (\ty -> length (unAppsT ty) == 1) tys))
 
+-- Serial instances for monoid newtypes from base.
+-- smallcheck-1.2.2 provides these.
+#if !MIN_VERSION_smallcheck(1,2,2)
 $(do let ns = [ ''Dual, ''Sum, ''Product, ''First, ''Last ]
          f n = [d| instance (Monad m, Serial m a) => Serial m ($(conT n) a) |]
      concat <$> mapM f ns)
+#endif
 
 -- Instances for DoNotUnbox types introduced in vector-0.13.2.0
 #if MIN_VERSION_vector(0,13,2)
@@ -200,11 +204,15 @@ deriving instance Show a => Show (UV.DoNotUnboxNormalForm a)
 deriving instance Show a => Show (UV.DoNotUnboxStrict a)
 #endif
 
+-- Serial instances for boolean monoids from base.
+-- smallcheck-1.2.2 provides these.
+#if !MIN_VERSION_smallcheck(1,2,2)
 instance Monad m => Serial m Any where
     series = fmap Any series
 
 instance Monad m => Serial m All where
     series = fmap All series
+#endif
 
 instance Monad m => Serial m Fingerprint where
     series = generate (\_ -> [Fingerprint 0 0, Fingerprint maxBound maxBound])
